@@ -1,0 +1,1275 @@
+From 16737a56a1d641fb57301ce0a1a00e168a88b7bb Mon Sep 17 00:00:00 2001
+From: William Jon McCann <jmccann@redhat.com>
+Date: Tue, 13 Jul 2010 16:38:46 -0400
+Subject: [PATCH] Add a theme called Slider from Jakub Steiner
+
+---
+ configure.in                                |    2 +
+ desktop-themes/Makefile.am                  |    2 +
+ desktop-themes/Slider/Makefile.am           |   11 +
+ desktop-themes/Slider/index.theme.in        |    8 +
+ gtk-themes/Makefile.am                      |    2 +
+ gtk-themes/Slider/Makefile.am               |    5 +
+ gtk-themes/Slider/gtkrc                     |  434 +++++++++++++++++++++
+ metacity-themes/Makefile.am                 |    1 +
+ metacity-themes/Slider/icon_close.png       |  Bin 0 -> 178 bytes
+ metacity-themes/Slider/icon_close_u.png     |  Bin 0 -> 159 bytes
+ metacity-themes/Slider/icon_maximize.png    |  Bin 0 -> 173 bytes
+ metacity-themes/Slider/icon_maximize_u.png  |  Bin 0 -> 128 bytes
+ metacity-themes/Slider/icon_minimize.png    |  Bin 0 -> 115 bytes
+ metacity-themes/Slider/icon_minimize_u.png  |  Bin 0 -> 115 bytes
+ metacity-themes/Slider/icon_restore.png     |  Bin 0 -> 159 bytes
+ metacity-themes/Slider/icon_restore_u.png   |  Bin 0 -> 159 bytes
+ metacity-themes/Slider/metacity-theme-1.xml |  559 +++++++++++++++++++++++++++
+ metacity-themes/Slider/stripes.png          |  Bin 0 -> 254 bytes
+ 18 files changed, 1024 insertions(+), 0 deletions(-)
+ create mode 100644 desktop-themes/Slider/Makefile.am
+ create mode 100644 desktop-themes/Slider/index.theme.in
+ create mode 100644 gtk-themes/Slider/Makefile.am
+ create mode 100644 gtk-themes/Slider/gtkrc
+ create mode 100644 metacity-themes/Slider/icon_close.png
+ create mode 100644 metacity-themes/Slider/icon_close_u.png
+ create mode 100644 metacity-themes/Slider/icon_maximize.png
+ create mode 100644 metacity-themes/Slider/icon_maximize_u.png
+ create mode 100644 metacity-themes/Slider/icon_minimize.png
+ create mode 100644 metacity-themes/Slider/icon_minimize_u.png
+ create mode 100644 metacity-themes/Slider/icon_restore.png
+ create mode 100644 metacity-themes/Slider/icon_restore_u.png
+ create mode 100644 metacity-themes/Slider/metacity-theme-1.xml
+ create mode 100644 metacity-themes/Slider/stripes.png
+
+diff --git a/configure.in b/configure.in
+index c5c4afd..18e9280 100644
+--- a/configure.in
++++ b/configure.in
+@@ -156,6 +156,7 @@ desktop-themes/Makefile
+ desktop-themes/Crux/Makefile
+ desktop-themes/Clearlooks/Makefile
+ desktop-themes/ClearlooksTest/Makefile
++desktop-themes/Slider/Makefile
+ desktop-themes/Glider/Makefile
+ desktop-themes/Glossy/Makefile
+ desktop-themes/HighContrast/Makefile
+@@ -173,6 +174,7 @@ desktop-themes/Mist/Makefile
+ metacity-themes/Makefile
+ gtk-themes/Makefile
+ gtk-themes/Glider/Makefile
++gtk-themes/Slider/Makefile
+ gtk-themes/Glossy/Makefile
+ gtk-themes/ClearlooksClassic/Makefile
+ gtk-themes/ClearlooksTest/Makefile
+diff --git a/desktop-themes/Makefile.am b/desktop-themes/Makefile.am
+index 38126c9..6220e9a 100644
+--- a/desktop-themes/Makefile.am
++++ b/desktop-themes/Makefile.am
+@@ -1,6 +1,7 @@
+ SUBDIRS=		\
+ 	Crux		\
+ 	Clearlooks	\
++	Slider		\
+ 	Glider		\
+ 	Glossy		\
+ 	HighContrast	\
+@@ -16,6 +17,7 @@ SUBDIRS=		\
+ DIST_SUBDIRS=		\
+ 	Crux		\
+ 	Clearlooks	\
++	Slider		\
+ 	Glider		\
+ 	Glossy		\
+ 	HighContrast	\
+diff --git a/desktop-themes/Slider/Makefile.am b/desktop-themes/Slider/Makefile.am
+new file mode 100644
+index 0000000..5954216
+--- /dev/null
++++ b/desktop-themes/Slider/Makefile.am
+@@ -0,0 +1,11 @@
++THEME_NAME=Slider
++THEME_IN_FILES=index.theme.in
++
++%.theme:   %.theme.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
++
++themedir = $(datadir)/themes/$(THEME_NAME)
++
++theme_DATA = index.theme
++
++DISTCLEANFILES=index.theme
++EXTRA_DIST=index.theme.in index.theme
+diff --git a/desktop-themes/Slider/index.theme.in b/desktop-themes/Slider/index.theme.in
+new file mode 100644
+index 0000000..b3ec39c
+--- /dev/null
++++ b/desktop-themes/Slider/index.theme.in
+@@ -0,0 +1,8 @@
++[X-GNOME-Metatheme]
++_Name=Slider
++Type=X-GNOME-Metatheme
++_Comment=Attractive Usability
++Encoding=UTF-8
++GtkTheme=Slider
++MetacityTheme=Slider
++IconTheme=gnome
+diff --git a/gtk-themes/Makefile.am b/gtk-themes/Makefile.am
+index 7f64204..c6d32da 100644
+--- a/gtk-themes/Makefile.am
++++ b/gtk-themes/Makefile.am
+@@ -1,5 +1,6 @@
+ SUBDIRS=	\
+ 	Glider		\
++	Slider		\
+ 	Glossy		\
+ 	ClearlooksClassic	\
+ 	Simple		\
+@@ -15,6 +16,7 @@ SUBDIRS=	\
+ 
+ DIST_SUBDIRS=		\
+ 	Glider		\
++	Slider		\
+ 	Glossy		\
+ 	ClearlooksClassic	\
+ 	Simple		\
+diff --git a/gtk-themes/Slider/Makefile.am b/gtk-themes/Slider/Makefile.am
+new file mode 100644
+index 0000000..0a5d4ab
+--- /dev/null
++++ b/gtk-themes/Slider/Makefile.am
+@@ -0,0 +1,5 @@
++themedir = $(datadir)/themes/Slider/gtk-2.0
++
++theme_DATA = gtkrc
++
++EXTRA_DIST = $(theme_DATA)
+diff --git a/gtk-themes/Slider/gtkrc b/gtk-themes/Slider/gtkrc
+new file mode 100644
+index 0000000..72ff0d0
+--- /dev/null
++++ b/gtk-themes/Slider/gtkrc
+@@ -0,0 +1,434 @@
++
++# Please keep this gtkrc in sync with the other ones from Clearlooks based themes.
++
++gtk-color-scheme = "base_color:#ffffff\nfg_color:#000000\ntooltip_fg_color:#000000\nselected_bg_color:#86ABD9\nselected_fg_color:#ffffff\ntext_color:#1A1A1A\nbg_color:#EDECEB\ntooltip_bg_color:#E7F3FD"
++
++gtk-auto-mnemonics = 1
++
++style "default" {
++	xthickness = 1
++	ythickness = 1
++
++	#######################
++	# Style Properties
++	#######################
++	GtkButton::child-displacement-x = 1
++	GtkButton::child-displacement-y = 1
++	GtkButton::default-border = { 0, 0, 0, 0 }
++	GtkButton::image-spacing = 4
++	GtkToolButton::icon-spacing = 4
++
++	GtkCheckButton::indicator-size = 14
++
++	GtkEntry::invisible-char = 0x2022
++
++	GtkPaned::handle-size = 6
++
++	GtkRange::trough-border = 0
++	GtkRange::slider-width = 15
++	GtkRange::stepper-size = 15
++
++	GtkScale::slider-length = 23
++	GtkScale::trough-side-details = 1
++
++	GtkScrollbar::min-slider-length = 30
++	GtkMenuBar::internal-padding = 0
++	GtkExpander::expander-size = 16
++	GtkToolbar::internal-padding = 1
++	GtkTreeView::expander-size = 14
++	GtkTreeView::vertical-separator = 0
++
++	GtkMenu::horizontal-padding = 0
++	GtkMenu::vertical-padding = 0
++
++	WnckTasklist::fade-overlay-rect = 0
++	# The following line hints to gecko (and possibly other appliations)
++	# that the entry should be drawn transparently on the canvas.
++	# Without this, gecko will fill in the background of the entry.
++	GtkEntry::honors-transparent-bg-hint = 1
++
++	GtkEntry::progress-border = { 2, 2, 2, 2 }
++
++	####################
++	# Color Definitions
++	####################
++	bg[NORMAL]        = @bg_color
++	bg[PRELIGHT]      = shade (1.02, @bg_color)
++	bg[SELECTED]      = @selected_bg_color
++	bg[INSENSITIVE]   = @bg_color
++	bg[ACTIVE]        = shade (0.9, @bg_color)
++
++	fg[NORMAL]        = @fg_color
++	fg[PRELIGHT]      = @fg_color
++	fg[SELECTED]      = @selected_fg_color
++	fg[INSENSITIVE]   = darker (@bg_color)
++	fg[ACTIVE]        = @fg_color
++
++	text[NORMAL]      = @text_color
++	text[PRELIGHT]    = @text_color
++	text[SELECTED]    = @selected_fg_color
++	text[INSENSITIVE] = darker (@bg_color)
++	text[ACTIVE]      = @selected_fg_color
++
++	base[NORMAL]      = @base_color
++	base[PRELIGHT]    = shade (0.95, @bg_color)
++	base[SELECTED]    = @selected_bg_color
++	base[INSENSITIVE] = @bg_color
++	base[ACTIVE]      = shade (0.9, @selected_bg_color)
++
++	engine "clearlooks" {
++		colorize_scrollbar = TRUE
++		reliefstyle = 1
++		menubarstyle = 2
++		toolbarstyle = 1
++		animation = FALSE
++		radius = 3.0
++		style = GUMMY
++
++		# Set a hint to disable backward compatibility fallbacks.
++		hint = "use-hints"
++	}
++}
++
++style "wide" {
++	xthickness = 2
++	ythickness = 2
++}
++
++style "wider" {
++	xthickness = 3
++	ythickness = 3
++}
++
++style "entry" {
++	xthickness = 3
++	ythickness = 3
++
++	bg[SELECTED] = mix (0.4, @selected_bg_color, @base_color)
++	fg[SELECTED] = @text_color
++
++	engine "clearlooks" {
++		focus_color = shade (0.65, @selected_bg_color)
++	}
++}
++
++style "spinbutton" {
++
++	engine "clearlooks" {
++		hint = "spinbutton"
++	}
++}
++
++style "scale" {
++	xthickness = 2
++	ythickness = 2
++
++	engine "clearlooks" {
++		hint = "scale"
++	}
++}
++
++style "vscale" {
++
++	engine "clearlooks" {
++		hint = "vscale"
++	}
++}
++
++style "hscale" {
++
++	engine "clearlooks" {
++		hint = "hscale"
++	}
++}
++
++style "scrollbar" {
++	xthickness = 2
++	ythickness = 2
++
++	engine "clearlooks" {
++		hint = "scrollbar"
++	}
++}
++
++style "hscrollbar" {
++
++	engine "clearlooks" {
++		hint = "hscrollbar"
++	}
++}
++
++style "vscrollbar" {
++
++	engine "clearlooks" {
++		hint = "vscrollbar"
++	}
++}
++
++style "notebook_bg" {
++
++	bg[NORMAL]        = shade (1.02, @bg_color)
++}
++
++style "button" {
++	xthickness = 3
++	ythickness = 3
++
++	bg[NORMAL]        = shade (1.04, @bg_color)
++	bg[PRELIGHT]      = shade (1.06, @bg_color)
++	bg[ACTIVE]        = shade (0.85, @bg_color)
++}
++
++# The color is changed by the notebook_bg style, this style
++# changes the x/ythickness
++style "notebook" {
++	xthickness = 3
++	ythickness = 3
++}
++
++style "statusbar" {
++
++	engine "clearlooks" {
++		hint = "statusbar"
++	}
++}
++
++style "comboboxentry" {
++
++	engine "clearlooks" {
++		# Note:
++		# If you set the appears-as-list option on comboboxes in the theme,
++		# then you should set this hint on the combobox instead.
++		hint = "comboboxentry"
++	}
++}
++
++style "menubar" {
++
++        GtkWidget::window-dragging = 1
++
++	engine "clearlooks" {
++		hint = "menubar"
++	}
++}
++
++style "menu" {
++	xthickness = 0
++	ythickness = 0
++
++	bg[NORMAL]        = shade (1.08, @bg_color)
++
++	engine "clearlooks" {
++		radius = 0.0
++	}
++}
++
++style "menu_item" {
++	xthickness = 2
++	ythickness = 3
++
++	fg[PRELIGHT]      = @selected_fg_color
++}
++
++# This style is there to modify the separator menu items. The goals are:
++# 1. Get a specific height.
++# 2. The line should go to the edges (ie. no border at the left/right)
++style "separator_menu_item" {
++	xthickness = 1
++	ythickness = 0
++
++	GtkSeparatorMenuItem::horizontal-padding = 0
++	GtkWidget::wide-separators = 1
++	GtkWidget::separator-width = 1
++	GtkWidget::separator-height = 7
++}
++
++style "frame_title" {
++
++	fg[NORMAL]        = lighter (@fg_color)
++}
++
++style "treeview" {
++
++	engine "clearlooks" {
++		hint = "treeview"
++	}
++}
++
++# The almost useless progress bar style
++style "progressbar" {
++	xthickness = 1
++	ythickness = 1
++
++	fg[PRELIGHT]      = @selected_fg_color
++
++	engine "clearlooks" {
++		# Explicitly set the radius for the progress bars inside menu items.
++		radius = 3.0
++
++		hint = "progressbar"
++	}
++}
++
++# This style is based on the default style, so that the colors from the button
++# style are overriden again.
++style "treeview_header" = "default" {
++	xthickness = 2
++	ythickness = 1
++
++	engine "clearlooks" {
++		hint = "treeview-header"
++	}
++}
++
++style "tooltips" {
++	xthickness = 8
++	ythickness = 4
++
++	GtkWidget::new-tooltip-style = 1
++
++	bg[NORMAL]        = @tooltip_bg_color
++	fg[NORMAL]        = @tooltip_fg_color
++}
++
++style "nautilus_location" {
++
++	bg[NORMAL]        = mix (0.60, shade (1.05, @bg_color), @selected_bg_color)
++}
++
++# Wrokaroudn style for places where the text color is used instead of the fg color.
++style "text_is_fg_color_workaround" {
++
++	text[NORMAL]      = @fg_color
++	text[PRELIGHT]    = @fg_color
++	text[SELECTED]    = @selected_fg_color
++	text[ACTIVE]      = @fg_color
++	text[INSENSITIVE] = darker (@bg_color)
++}
++
++# Workaround style for menus where the text color is used instead of the fg color.
++style "menuitem_text_is_fg_color_workaround" {
++
++	text[NORMAL]      = @fg_color
++	text[PRELIGHT]    = @selected_fg_color
++	text[SELECTED]    = @selected_fg_color
++	text[ACTIVE]      = @fg_color
++	text[INSENSITIVE] = darker (@bg_color)
++}
++
++# Workaround style for places where the fg color is used instead of the text color.
++style "fg_is_text_color_workaround" {
++
++	fg[NORMAL]        = @text_color
++	fg[PRELIGHT]      = @text_color
++	fg[SELECTED]      = @selected_fg_color
++	fg[ACTIVE]        = @selected_fg_color
++	fg[INSENSITIVE]   = darker (@bg_color)
++}
++
++# Style to set the toolbar to use a flat style. This is because the "New" button in
++# Evolution is not drawn transparent. So if there is a gradient in the background it will
++# look really wrong.
++# See http://bugzilla.gnome.org/show_bug.cgi?id=446953.
++style "evo_new_button_workaround" {
++
++	engine "clearlooks" {
++		toolbarstyle = 0
++	}
++}
++
++
++###############################################################################
++# The following part of the gtkrc applies the different styles to the widgets.
++###############################################################################
++
++# The default style is applied to every widget
++class "GtkWidget" style "default"
++
++class "GtkSeparator" style "wide"
++class "GtkFrame" style "wide"
++class "GtkCalendar" style "wide"
++class "GtkEntry" style "entry"
++
++class "GtkSpinButton" style "spinbutton"
++class "GtkScale" style "scale"
++class "GtkVScale" style "vscale"
++class "GtkHScale" style "hscale"
++class "GtkScrollbar" style "scrollbar"
++class "GtkHScrollbar" style "hscrollbar"
++class "GtkVScrollbar" style "vscrollbar"
++
++# General matching follows. The order is choosen so that the right styles override
++# each other. EG. progressbar needs to be more important than the menu match.
++widget_class "*<GtkNotebook>" style "notebook_bg"
++# This is not perfect, it could be done better.
++# (That is modify *every* widget in the notebook, and change those back that
++# we really don't want changed)
++widget_class "*<GtkNotebook>*<GtkEventBox>" style "notebook_bg"
++widget_class "*<GtkNotebook>*<GtkDrawingArea>" style "notebook_bg"
++widget_class "*<GtkNotebook>*<GtkLayout>" style "notebook_bg"
++widget_class "*<GtkNotebook>*<GtkViewport>" style "notebook_bg"
++widget_class "*<GtkNotebook>*<GtkScrolledWindow>" style "notebook_bg"
++
++widget_class "*<GtkButton>" style "button"
++widget_class "*<GtkNotebook>" style "notebook"
++widget_class "*<GtkStatusbar>*" style "statusbar"
++
++widget_class "*<GtkComboBoxEntry>*" style "comboboxentry"
++widget_class "*<GtkCombo>*" style "comboboxentry"
++
++widget_class "*<GtkMenuBar>*" style "menubar"
++widget_class "*<GtkMenu>*" style "menu"
++widget_class "*<GtkMenuItem>*" style "menu_item"
++widget_class "*<GtkSeparatorMenuItem>*" style "separator_menu_item"
++
++widget_class "*.<GtkFrame>.<GtkLabel>" style "frame_title"
++widget_class "*.<GtkTreeView>*" style "treeview"
++
++widget_class "*<GtkProgress>" style "progressbar"
++
++# Treeview headers (and similar stock GTK+ widgets)
++widget_class "*.<GtkTreeView>.<GtkButton>" style "treeview_header"
++widget_class "*.<GtkCTree>.<GtkButton>" style "treeview_header"
++widget_class "*.<GtkList>.<GtkButton>" style "treeview_header"
++widget_class "*.<GtkCList>.<GtkButton>" style "treeview_header"
++
++# The window of the tooltip is called "gtk-tooltip"
++##################################################################
++# FIXME:
++# This will not work if one embeds eg. a button into the tooltip.
++# As far as I can tell right now we will need to rework the theme
++# quite a bit to get this working correctly.
++# (It will involve setting different priorities, etc.)
++##################################################################
++widget "gtk-tooltip*" style "tooltips"
++
++##########################################################################
++# Following are special cases and workarounds for issues in applications.
++##########################################################################
++
++# Workaround for the evolution ETable (bug #527532)
++widget_class "*.ETable.ECanvas" style "treeview_header"
++# Workaround for the evolution ETree
++widget_class "*.ETree.ECanvas" style "treeview_header"
++
++# Special case the nautilus-extra-view-widget
++# ToDo: A more generic approach for all applications that have a widget like this.
++widget "*.nautilus-extra-view-widget" style : highest "nautilus_location"
++
++# Work around for http://bugzilla.gnome.org/show_bug.cgi?id=382646
++# Note that this work around assumes that the combobox is _not_ in appears-as-list mode.
++widget_class "*.<GtkComboBox>.<GtkCellView>" style "text_is_fg_color_workaround"
++# This is the part of the workaround that fixes the menus
++widget "*.gtk-combobox-popup-menu.*" style "menuitem_text_is_fg_color_workaround"
++
++# Work around the usage of GtkLabel inside GtkListItems to display text.
++# This breaks because the label is shown on a background that is based on the base color.
++widget_class "*<GtkListItem>*" style "fg_is_text_color_workaround"
++# GtkCList also uses the fg color to draw text on top of the base colors.
++widget_class "*<GtkCList>" style "fg_is_text_color_workaround"
++# Nautilus when renaming files, and maybe other places.
++widget_class "*<EelEditableLabel>" style "fg_is_text_color_workaround"
++
++# See the documentation of the style.
++widget_class "EShellWindow.GtkVBox.BonoboDock.BonoboDockBand.BonoboDockItem*" style "evo_new_button_workaround"
+diff --git a/metacity-themes/Makefile.am b/metacity-themes/Makefile.am
+index 58f6ad0..6add2a0 100644
+--- a/metacity-themes/Makefile.am
++++ b/metacity-themes/Makefile.am
+@@ -1,5 +1,6 @@
+ THEMES= \
+ 	Clearlooks \
++	Slider \
+ 	ClearlooksClassic \
+ 	Glider \
+ 	Glossy \
+diff --git a/metacity-themes/Slider/icon_close.png b/metacity-themes/Slider/icon_close.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f2f8408a2dc3a419b003c3b722a99ef09ba43ec9
+GIT binary patch
+literal 178
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^D3b2!
+z;us<k-W$-!+hD-K{Mh}UN&YPR%E>`Y%eXJ^NLj2I>lr9`^HJ19X8yTiKU{LdWfH^;
+z_kSwSE(tB=no->;f4!t~=A&OqY}5TtpZV9Vowxa7v&J#eJdfPYa^YWk6X#7%7T+&c
+Z$6RV!o844edK+jZgQu&X%Q~loCIE^IJ=FjJ
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_close_u.png b/metacity-themes/Slider/icon_close_u.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..dff25f9f9b6353c87e2999c893c936b2048b98c7
+GIT binary patch
+literal 159
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^C=%l7
+z;us<k-rLW}#h}2!to>`d|9X+BmRv$gn{LmEb-Crw+kS25*Me000}KLshZw9QHtznr
+zQ2Efp({laKdVacn*xGY&hiTvAGpdW5IHsJroSWAz@{rBAfOn$uBi5rp^BFu{{an^L
+HB{Ts5LX|fc
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_maximize.png b/metacity-themes/Slider/icon_maximize.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e9eb1a56652817ca3a52f3f4b68a3ee0605a1c24
+GIT binary patch
+literal 173
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD<C*!3BGlPX>x4dAc};
+zNQ5V+BqVq+Cp9&&E_w9-|9|6;D^pTZe9{jsXNcs>QQ~MQNxaOmnRlJQ5{;Z=S0hh!
+zg{Nj5zT3a(!^@@4H+WdP7iy#=I6YN*?KIKSN>wyH;Gn1wkJ5sV7QT+#q!>1w6IJ`t
+Sw0H~9HU>{uKbLh*2~7aEyFK3k
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_maximize_u.png b/metacity-themes/Slider/icon_maximize_u.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..930b481fc0c52094adcd5993747057aac2073680
+GIT binary patch
+literal 128
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^C}QgA
+z;us<kp1fxL`g8@h4GyAz)fdc|*xA6e!{m(11O{b3--O#8W`zu*O4V%n0tZDNeKNFB
+ZU{K^@naQ&CkS)*v22WQ%mvv4FO#t&5BgX&$
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_minimize.png b/metacity-themes/Slider/icon_minimize.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b6459c29532fcc8c34e8d70f3ce8b9b8d08343e
+GIT binary patch
+literal 115
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^D5Bx%
+z;us<ko}3`j*&z7hrAd;_Ii{d5|NsA=`9s9m$Y`1I!{7!T_bpc$B!XG4zGh}v3e>~k
+M>FVdQ&MBb@0Eq7*sQ>@~
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_minimize_u.png b/metacity-themes/Slider/icon_minimize_u.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8dabe87161fe9d44574c10b1bdde81092b3803f6
+GIT binary patch
+literal 115
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^D5Bx%
+z;us<kp1fxL`g8?01Hr`{OVT1VQyPE$vS+++Ec7;eMrRL;PYMIWQ(LBK?dI<afqED`
+MUHx3vIVCg!05WtSpa1{>
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_restore.png b/metacity-themes/Slider/icon_restore.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..fed61c3c557a8b19bdc94c0913d5e68ab2d40f02
+GIT binary patch
+literal 159
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^C=%l7
+z;us<ko}8c{WZ-mlsbGM8H|w$o|Ns9t-l&<DlH$YOX`DFuh#H%@pbF>Z-m_vn!fQ7#
+zJI|C@5*+Bm;wd+GTIbbd4X(mUjueI%#a+KItW}%E&tUH-^dT&Z^D)qT22WQ%mvv4F
+FO#qC&F=GG#
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/icon_restore_u.png b/metacity-themes/Slider/icon_restore_u.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9dc696f7afb951978b5e2fceafcdcd81572a190
+GIT binary patch
+literal 159
+zcmeAS@N?(olHy`uVBq!ia0vp^AT}2V8<6ZZI=>f4u_bxCyD(%j)H8hiQRch^C=%l7
+z;us<kp1fxL`g8?01Hr`{OWIgHAJ)svl5l*KGV?@2QWDcOUgq?3a~f|qB|SRcFaNM>
+z!c7Io6!Rw0h1v}-T>>k9f6I-Lb21b>T3cZ5AnEd3iXmW;&{7Ew_jsWB44$rjF6*2U
+FngA-yGlc*E
+
+literal 0
+HcmV?d00001
+
+diff --git a/metacity-themes/Slider/metacity-theme-1.xml b/metacity-themes/Slider/metacity-theme-1.xml
+new file mode 100644
+index 0000000..db684de
+--- /dev/null
++++ b/metacity-themes/Slider/metacity-theme-1.xml
+@@ -0,0 +1,559 @@
++<?xml version="1.0"?>
++<!-- 	$Id: metacity-theme-1.xml,v 1.4 2003/12/10 13:57:58 jimmac Exp $	 -->
++<metacity_theme>
++<info>
++  <name>Slider</name>
++  <author>Jakub Steiner</author>
++  <copyright>&#194; 2002 Ximian, Inc., 2004 Canonical Ltd., 2005 Daniel Borgmann, 2006-2009 Novell, Inc., 2010 Red Hat, Inc.</copyright>
++  <date>Jul, 2010</date>
++  <description>Default theme</description>
++  <!-- based on the Gilouche theme -->
++</info>
++ 
++<frame_geometry name="normal" rounded_top_left="true" rounded_top_right="true" rounded_bottom_left="false" rounded_bottom_right="false">
++  <distance name="left_width" value="2"/>
++  <distance name="right_width" value="2"/>
++  <distance name="bottom_height" value="4"/>
++  <distance name="left_titlebar_edge" value="4"/>
++  <distance name="right_titlebar_edge" value="4"/>
++  <aspect_ratio name="button" value="1"/>
++  <distance name="title_vertical_pad" value="5"/>
++  <border name="title_border" left="1" right="1" top="2" bottom="2"/>
++  <border name="button_border" left="1" right="1" top="4" bottom="2"/>
++</frame_geometry>
++
++<frame_geometry name="normal_maximized" parent="normal" rounded_top_left="false" rounded_top_right="false" rounded_bottom_left="false" rounded_bottom_right="false">
++  <!-- strip frame spacing off the normal geometry when maximised -->
++  <distance name="left_width" value="0"/>
++  <distance name="right_width" value="0"/>
++  <distance name="bottom_height" value="0"/>
++  <distance name="left_titlebar_edge" value="3"/>
++  <distance name="right_titlebar_edge" value="1"/>
++  <distance name="title_vertical_pad" value="5"/>
++  <border name="title_border" left="1" right="1" top="2" bottom="2"/>
++  <border name="button_border" left="1" right="1" top="2" bottom="2"/>
++</frame_geometry>
++
++<frame_geometry name="border" has_title="false">
++  <distance name="left_width" value="4"/>
++  <distance name="right_width" value="4"/>
++  <distance name="bottom_height" value="4"/>
++  <distance name="left_titlebar_edge" value="0"/>
++  <distance name="right_titlebar_edge" value="0"/>
++  <distance name="button_width" value="0"/>
++  <distance name="button_height" value="0"/>
++  <distance name="title_vertical_pad" value="4"/>
++  <border name="title_border" left="0" right="0" top="0" bottom="0"/>
++  <border name="button_border" left="0" right="0" top="0" bottom="0"/>
++</frame_geometry>
++
++<!-- button inside padding -->
++<constant name="ButtonIPad" value="3"/>
++<constant name="StripeEdge" value="7"/>
++
++<draw_ops name="inner_window_border">
++  <gradient type="vertical" x="left_width-1" y="top_height-1" width="1" height="height-bottom_height-top_height+2">
++    <color value="#000000"/>
++    <color value="gtk:bg[NORMAL]"/>
++    <color value="gtk:bg[NORMAL]"/>
++  </gradient>
++  <gradient type="vertical" x="width-right_width" y="top_height-1" width="1" height="height-bottom_height-top_height+2">
++    <color value="#000000"/>
++    <color value="gtk:bg[NORMAL]"/>
++    <color value="gtk:bg[NORMAL]"/>
++  </gradient>
++
++	<line color="#000000" 
++	x1="left_width" y1="top_height-1" x2="width-right_width"
++	y2="top_height-1" />
++	<line color="gtk:bg[NORMAL]" 
++	x1="left_width" y1="height-bottom_height" x2="width-right_width"
++	y2="height-bottom_height" />
++</draw_ops>
++
++<draw_ops name="titlebar-backdrop">
++<!-- vertical gradient -->
++  <gradient type="vertical" x="0" y="0" width="width" height="title_height + 10">
++    <color value="#303030"/>
++    <color value="#303030"/>
++    <color value="#101010"/>
++  </gradient>
++
++	<!-- upper highlight -->
++  <gradient type="horizontal" x="0" y="1" width="width" height="1">
++    <color value="#404040"/>
++    <color value="#808080"/>
++    <color value="#404040"/>
++  </gradient>
++  <gradient type="horizontal" x="0" y="2" width="width" height="1">
++    <color value="#303030"/>
++    <color value="#505050"/>
++    <color value="#303030"/>
++  </gradient>
++
++	<!-- bottom stripe -->
++  <gradient type="horizontal" x="StripeEdge + 2" y="title_height + 6" width="width - 2 - StripeEdge * 2" height="1">
++    <color value="#101010"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.6"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.6"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.6"/>
++    <color value="#101010"/>
++  </gradient>
++  <gradient type="horizontal" x="StripeEdge + 2" y="title_height + 7" width="width - 2 - StripeEdge * 2" height="1">
++    <color value="#101010"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.2"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.2"/>
++    <color value="blend/gtk:bg[SELECTED]/#101010/.2"/>
++    <color value="#101010"/>
++  </gradient>
++</draw_ops>
++
++<draw_ops name="bevel_maximized">
++	<include name="titlebar-backdrop" />
++</draw_ops>
++
++<draw_ops name="bevel_unfocused">
++
++  <rectangle color="gtk:bg[NORMAL]" filled="true"
++             x="0" y="0"
++             width="width"
++             height="height"/>
++  <rectangle color="blend/gtk:bg[NORMAL]/#000000/0.3" filled="false"
++             x="0" y="0"
++             width="width - 1"
++             height="height - 1"/>             
++	<!-- rounded corner -->
++	<!-- outside left -->
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="3" y1="1" x2="4" y2="1" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="2" y1="2" x2="2" y2="2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="1" y1="3" x2="1" y2="4" />
++	<!-- inside left -->
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.03" x1="3" y1="2" x2="4" y2="2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.03" x1="2" y1="3" x2="2" y2="4" />
++	<!-- outside right -->
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="width - 5" y1="1" x2="width - 3" y2="1" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="width - 3" y1="2" x2="width - 2" y2="2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.3" x1="width - 2" y1="3" x2="width - 2" y2="4" />
++	<!-- inside right -->
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.03" x1="width - 5" y1="2" x2="width - 4" y2="2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.03" x1="width - 3" y1="3" x2="width - 3" y2="4" />
++</draw_ops>
++
++<draw_ops name="bevel">
++
++  <include name="titlebar-backdrop" />
++
++	<!-- outer border -->
++  <rectangle color="#000000" filled="false"
++       x="0" y="0"
++       width="width - 1"
++       height="height - 1"/>
++	<!-- outer border - rounded corners -->
++	<!-- top right -->
++	<line color="#000000" x1="3" y1="1" x2="4" y2="1" />
++	<line color="#000000" x1="2" y1="2" x2="2" y2="2" />
++	<line color="#000000" x1="1" y1="3" x2="1" y2="4" />
++	<!-- inside left 
++	<line color="#303030" x1="3" y1="2" x2="4" y2="2" />
++	<line color="#303030" x1="2" y1="3" x2="2" y2="4" />
++	-->
++	<!-- outside right -->
++	<line color="#000000" x1="width - 5" y1="1" x2="width - 3" y2="1" />
++	<line color="#000000" x1="width - 3" y1="2" x2="width - 2" y2="2" />
++	<line color="#000000" x1="width - 2" y1="3" x2="width - 2" y2="4" />
++	<!-- inside right 
++	<line color="#303030" x1="width - 5" y1="2" x2="width - 4" y2="2" />
++	<line color="#303030" x1="width - 3" y1="3" x2="width - 3" y2="4" />
++	-->
++</draw_ops>
++
++
++<draw_ops name="bevel_border">
++  <include name="bevel"/>
++  <include name="inner_window_border"/>
++</draw_ops>
++
++<!-- ::: TITLES ::: -->
++
++<draw_ops name="title">
++  <title color="#202020" 
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2"/>
++  <title color="#202020"
++         x="(3 `max` (width-title_width)) / 2 - 1"
++         y="(height - title_height) / 2"/>
++  <title color="#202020"
++         x="(3 `max` (width-title_width)) / 2 + 1"
++         y="(height - title_height) / 2"/>                  
++  <title color="gtk:fg[SELECTED]"
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2 + 1"/>
++</draw_ops>
++
++<draw_ops name="title_unfocused">
++  <title color="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2 + 1"/>
++</draw_ops>
++
++<draw_ops name="title_max">
++  <title color="#252525"
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2 + 3"/>
++  <title color="gtk:fg[SELECTED]"
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2 + 1"/>
++</draw_ops>
++
++<draw_ops name="title_max_unfocused">
++  <title color="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"
++         x="(3 `max` (width-title_width)) / 2"
++         y="(height - title_height) / 2 + 1"/>
++</draw_ops>
++
++<!-- ::: BUTTONS ::: -->
++
++
++<!-- borders -->
++<draw_ops name="menu_button_icon"> 
++  <icon  x="(width-mini_icon_width)/2"
++         y="(height-mini_icon_height)/2"
++         width="mini_icon_width" height="mini_icon_height"/>
++</draw_ops>
++
++<draw_ops name="button_bg">
++<!-- kinda looks better without
++	<line color="#cb292b" x1="1" y1="0" x2="width-3" y2="0" />
++	<line color="#cb292b" x1="0" y1="1" x2="0" y2="height-3" />
++	<line color="#cb292b" x1="1" y1="height-2" x2="width-3" y2="height-2" />
++	<line color="#cb292b" x1="width-2" y1="1" x2="width-2" y2="height-3" />
++-->
++</draw_ops>
++
++<draw_ops name="button_bg_prelight">
++<!-- not used
++	<line color="blend/#cb292b/#ffffff/.2" x1="1" y1="0" x2="width-3" y2="0" />
++	<line color="blend/#cb292b/#ffffff/.2" x1="0" y1="1" x2="0" y2="height-3" />
++	<line color="blend/#cb292b/#ffffff/.2" x1="1" y1="height-2" x2="width-3" y2="height-2" />
++	<line color="blend/#cb292b/#ffffff/.2" x1="width-2" y1="1" x2="width-2" y2="height-3" />
++
++  <gradient type="vertical" x="1" y="1" width="width - 3" height="height - 3">
++		<color value="blend/#cb292b/#ffffff/.1"/>
++		<color value="blend/#cb292b/#000000/.1"/>
++  </gradient>
++-->
++</draw_ops>
++
++<draw_ops name="button_bg_pressed">
++<!--
++	<line color="blend/#cb292b/#ffffff/.1" x1="1" y1="0" x2="width-3" y2="0" />
++	<line color="blend/#cb292b/#ffffff/.1" x1="0" y1="1" x2="0" y2="height-3" />
++	<line color="blend/#cb292b/#ffffff/.1" x1="1" y1="height-2" x2="width-3" y2="height-2" />
++	<line color="blend/#cb292b/#ffffff/.1" x1="width-2" y1="1" x2="width-2" y2="height-3" />
++-->	
++  <gradient type="vertical" x="1" y="1" width="width - 2" height="height - 2">
++		<color value="#151515"/>
++		<color value="#000000"/>
++  </gradient>
++  <!-- dots on corners -->
++  <!--topleft-->
++  <line color="#303030" x1="1" y1="1" x2="1" y2="1" />
++  <line color="blend/#151515/#303030/.5" x1="2" y1="1" x2="2" y2="1" />
++  <line color="blend/#151515/#303030/.5" x1="1" y1="2" x2="1" y2="2" />
++  <!--topright-->
++  <line color="#303030" x1="width - 2" y1="1" x2="width - 2" y2="1" />
++  <line color="blend/#151515/#303030/.5" x1="width - 3" y1="1" x2="width - 3" y2="1" />
++  <line color="blend/#151515/#303030/.5" x1="width - 2" y1="2" x2="width - 2" y2="2" />  
++</draw_ops>
++
++
++<draw_ops name="button_bg_unfocused">
++</draw_ops>
++
++<draw_ops name="button_bg_unfocused_prelight">
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="1" y1="0" x2="width-3" y2="0" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="0" y1="1" x2="0" y2="height-3" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="1" y1="height-2" x2="width-3" y2="height-2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="width-2" y1="1" x2="width-2" y2="height-3" />
++
++  <gradient type="vertical" x="1" y="1" width="width - 3" height="height - 3">
++		<color value="blend/gtk:bg[NORMAL]/#ffffff/.5"/>
++		<color value="blend/gtk:bg[NORMAL]/#000000/0.1"/>
++  </gradient>
++</draw_ops>
++
++<draw_ops name="button_bg_unfocused_pressed">
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="1" y1="0" x2="width-3" y2="0" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="0" y1="1" x2="0" y2="height-3" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="1" y1="height-2" x2="width-3" y2="height-2" />
++	<line color="blend/gtk:bg[NORMAL]/#000000/0.1" x1="width-2" y1="1" x2="width-2" y2="height-3" />
++
++  <gradient type="vertical" x="1" y="1" width="width - 3" height="height - 3">
++		<color value="blend/gtk:bg[NORMAL]/#000000/0.1"/>
++		<color value="blend/gtk:bg[NORMAL]/#ffffff/.5"/>
++  </gradient>
++</draw_ops>
++
++<draw_ops name="menu_button_normal">
++  <include name="menu_button_icon"/>
++</draw_ops>
++<draw_ops name="menu_button_pressed">
++  <include name="menu_button_icon"/>
++</draw_ops>
++<draw_ops name="menu_button_unfocused">
++  <include name="menu_button_icon"/>
++</draw_ops>
++
++<!-- ::: ICONS ::: -->
++<draw_ops name="close_button_icon">
++	<image filename="icon_close.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++
++<draw_ops name="close_button_icon_unfocused">
++	<image filename="icon_close_u.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="close_button_normal">
++  <include name="button_bg"/>
++  <include name="close_button_icon"/>
++</draw_ops>
++<draw_ops name="close_button_prelight">
++  <!--<include name="button_bg_prelight"/>-->
++	<image filename="icon_close.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" alpha="1" />
++</draw_ops>
++<draw_ops name="close_button_pressed">
++  <include name="button_bg_pressed"/>
++  <image filename="icon_close.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++<draw_ops name="close_button_unfocused">
++  <include name="button_bg_unfocused"/>
++  <include name="close_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="close_button_unfocused_prelight">
++  <!--<include name="button_bg_unfocused_prelight"/>-->
++  <include name="close_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="close_button_unfocused_pressed">
++  <include name="button_bg_unfocused_pressed"/>
++  <image filename="icon_close_u.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="maximize_button_icon">
++	<image filename="icon_maximize.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++
++<draw_ops name="maximize_button_icon_unfocused">	
++	<image filename="icon_maximize_u.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="maximize_button_normal">
++  <include name="button_bg"/>
++  <include name="maximize_button_icon"/>
++</draw_ops>
++<draw_ops name="maximize_button_prelight">
++  <!--<include name="button_bg_prelight"/>-->
++	<image filename="icon_maximize.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10"/>
++</draw_ops>
++<draw_ops name="maximize_button_pressed">
++  <include name="button_bg_pressed"/>
++  <image filename="icon_maximize.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++<draw_ops name="maximize_button_unfocused">
++  <include name="maximize_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="maximize_button_unfocused_prelight">
++  <!--<include name="button_bg_unfocused_prelight"/>-->
++  <include name="maximize_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="maximize_button_unfocused_pressed">
++  <include name="button_bg_unfocused_pressed"/>
++  <image filename="icon_maximize_u.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="restore_button_icon">
++	<image filename="icon_restore.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++
++<draw_ops name="restore_button_icon_unfocused">
++	<image filename="icon_restore_u.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="restore_button_normal">
++  <include name="button_bg"/>
++  <include name="restore_button_icon"/>
++</draw_ops>
++<draw_ops name="restore_button_prelight">
++  <!--<include name="button_bg_prelight"/>-->
++	<image filename="icon_restore.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10"/>
++</draw_ops>
++<draw_ops name="restore_button_pressed">
++  <include name="button_bg_pressed"/>
++  <image filename="icon_restore.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++<draw_ops name="restore_button_unfocused">
++  <include name="restore_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="restore_button_unfocused_prelight">
++  <!--<include name="button_bg_unfocused_prelight"/>-->
++  <include name="restore_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="restore_button_unfocused_pressed">
++  <include name="button_bg_unfocused_pressed"/>
++  <image filename="icon_restore_u.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="minimize_button_icon">
++	<image filename="icon_minimize.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++
++<draw_ops name="minimize_button_icon_unfocused">
++	<image filename="icon_minimize_u.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++<draw_ops name="minimize_button_normal">
++  <include name="button_bg"/>
++  <include name="minimize_button_icon"/>
++</draw_ops>
++<draw_ops name="minimize_button_prelight">
++  <!--<include name="button_bg_prelight"/>-->
++	<image filename="icon_minimize.png" x="(width-10)/2" y="(height-10)/2" width="10" height="10"/>
++</draw_ops>
++<draw_ops name="minimize_button_pressed">
++  <include name="button_bg_pressed"/>
++  <image filename="icon_minimize.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" alpha="0.7"/>
++</draw_ops>
++<draw_ops name="minimize_button_unfocused">
++  <include name="minimize_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="minimize_button_unfocused_prelight">
++  <!--<include name="button_bg_unfocused_prelight"/>-->
++  <include name="minimize_button_icon_unfocused"/>
++</draw_ops>
++<draw_ops name="minimize_button_unfocused_pressed">
++  <include name="button_bg_unfocused_pressed"/>
++  <image filename="icon_minimize_u.png" x="(width-10)/2" y="(height-10)/2 + 1" width="10" height="10" colorize="blend/gtk:fg[NORMAL]/gtk:bg[NORMAL]/0.5"/>
++</draw_ops>
++
++
++
++<draw_ops name="blank">
++<!-- nothing -->
++</draw_ops>
++
++<frame_style name="normal" geometry="normal">
++  <piece position="entire_background" draw_ops="bevel_unfocused"/>
++  <piece position="title" draw_ops="title_unfocused"/>
++  <button function="close" state="normal" draw_ops="close_button_unfocused"/>
++  <button function="close" state="pressed" draw_ops="close_button_unfocused_pressed"/>
++  <button function="close" state="prelight" draw_ops="close_button_unfocused_prelight"/>
++  <button function="maximize" state="normal" draw_ops="maximize_button_unfocused"/>
++  <button function="maximize" state="pressed" draw_ops="maximize_button_unfocused_pressed"/>
++  <button function="maximize" state="prelight" draw_ops="maximize_button_unfocused_prelight"/>
++  <button function="minimize" state="normal" draw_ops="minimize_button_unfocused"/>
++  <button function="minimize" state="pressed" draw_ops="minimize_button_unfocused_pressed"/>
++  <button function="minimize" state="prelight" draw_ops="minimize_button_unfocused_prelight"/>
++  <button function="menu" state="normal" draw_ops="menu_button_unfocused"/>
++  <button function="menu" state="pressed" draw_ops="menu_button_pressed"/>
++</frame_style>
++
++<frame_style name="focused" geometry="normal" parent="normal">
++  <piece position="entire_background" draw_ops="bevel_border"/>
++  <piece position="title" draw_ops="title"/>
++  <button function="close" state="normal" draw_ops="close_button_normal"/>
++  <button function="close" state="pressed" draw_ops="close_button_pressed"/>
++  <button function="close" state="prelight" draw_ops="close_button_prelight"/>
++  <button function="maximize" state="normal" draw_ops="maximize_button_normal"/>
++  <button function="maximize" state="pressed" draw_ops="maximize_button_pressed"/>
++  <button function="maximize" state="prelight" draw_ops="maximize_button_prelight"/>
++  <button function="minimize" state="normal" draw_ops="minimize_button_normal"/>
++  <button function="minimize" state="pressed" draw_ops="minimize_button_pressed"/>
++  <button function="minimize" state="prelight" draw_ops="minimize_button_prelight"/>
++  <button function="menu" state="normal" draw_ops="menu_button_normal"/>
++</frame_style>
++
++<frame_style name="normal_maximized" geometry="normal_maximized">
++  <piece position="entire_background" draw_ops="bevel_unfocused"/>
++  <piece position="title" draw_ops="title_max_unfocused"/>
++  <button function="close" state="normal" draw_ops="close_button_unfocused"/>
++  <button function="close" state="pressed" draw_ops="close_button_unfocused_pressed"/>
++  <button function="close" state="prelight" draw_ops="close_button_unfocused_prelight"/>
++  <button function="maximize" state="normal" draw_ops="restore_button_unfocused"/>
++  <button function="maximize" state="pressed" draw_ops="restore_button_unfocused_pressed"/>
++  <button function="maximize" state="prelight" draw_ops="restore_button_unfocused_prelight"/>
++  <button function="minimize" state="normal" draw_ops="minimize_button_unfocused"/>
++  <button function="minimize" state="pressed" draw_ops="minimize_button_unfocused_pressed"/>
++  <button function="minimize" state="prelight" draw_ops="minimize_button_unfocused_prelight"/>
++  <button function="menu" state="normal" draw_ops="menu_button_unfocused"/>
++  <button function="menu" state="pressed" draw_ops="menu_button_pressed"/>
++</frame_style>
++
++<frame_style name="focused_maximized" geometry="normal_maximized" parent="normal">
++  <piece position="title" draw_ops="title_max"/>
++  <button function="close" state="normal" draw_ops="close_button_normal"/>
++  <button function="close" state="pressed" draw_ops="close_button_pressed"/>
++  <button function="close" state="prelight" draw_ops="close_button_prelight"/>
++  <button function="maximize" state="normal" draw_ops="restore_button_normal"/>
++  <button function="maximize" state="pressed" draw_ops="restore_button_pressed"/>
++  <button function="maximize" state="prelight" draw_ops="restore_button_prelight"/>
++  <button function="minimize" state="normal" draw_ops="minimize_button_normal"/>
++  <button function="minimize" state="pressed" draw_ops="minimize_button_pressed"/>
++  <button function="minimize" state="prelight" draw_ops="minimize_button_prelight"/>
++  <piece position="entire_background" draw_ops="bevel_maximized"/>
++
++
++
++  <button function="menu" state="normal" draw_ops="menu_button_normal"/>
++</frame_style>
++
++<frame_style name="border" geometry="border" parent="normal">
++  <piece position="entire_background" draw_ops="bevel_unfocused"/>
++  <piece position="title" draw_ops="blank"/>
++</frame_style>
++
++<frame_style_set name="normal">
++   <frame focus="yes" state="normal" resize="both" style="focused"/>
++   <frame focus="no" state="normal" resize="both" style="normal"/>
++   <frame focus="yes" state="maximized" style="focused_maximized"/>
++   <frame focus="no" state="maximized" style="normal_maximized"/>
++   <frame focus="yes" state="shaded" style="focused"/>
++   <frame focus="no" state="shaded" style="normal"/>
++   <frame focus="yes" state="maximized_and_shaded" style="focused_maximized"/>
++   <frame focus="no" state="maximized_and_shaded" style="normal_maximized"/>
++</frame_style_set>
++
++<frame_style_set name="utility" parent="normal">
++<frame focus="yes" state="normal" resize="both" style="focused"/>
++<frame focus="no" state="normal" resize="both" style="normal"/>
++<!-- this is a bunch of crack since utility windows shouldn't be maximized -->
++<frame focus="yes" state="maximized" style="focused"/>
++<frame focus="no" state="maximized" style="normal"/>
++<frame focus="yes" state="shaded" style="focused"/>
++<frame focus="no" state="shaded" style="normal"/>
++<frame focus="yes" state="maximized_and_shaded" style="focused"/>
++<frame focus="no" state="maximized_and_shaded" style="normal"/>
++</frame_style_set>
++
++<frame_style_set name="border">
++<frame focus="yes" state="normal" resize="both" style="border"/>
++<frame focus="no" state="normal" resize="both" style="border"/>
++<frame focus="yes" state="maximized" style="border"/>
++<frame focus="no" state="maximized" style="border"/>
++<frame focus="yes" state="shaded" style="border"/>
++<frame focus="no" state="shaded" style="border"/>
++<frame focus="yes" state="maximized_and_shaded" style="border"/>
++<frame focus="no" state="maximized_and_shaded" style="border"/>
++</frame_style_set>
++
++<window type="normal" style_set="normal"/>
++<window type="dialog" style_set="normal"/>
++<window type="modal_dialog" style_set="normal"/>
++<window type="menu" style_set="normal"/>
++<window type="utility" style_set="normal"/>
++<window type="border" style_set="border"/>
++
++<menu_icon function="close" state="normal" draw_ops="close_button_icon_unfocused"/>
++<menu_icon function="maximize" state="normal" draw_ops="maximize_button_icon_unfocused"/>
++<menu_icon function="unmaximize" state="normal" draw_ops="restore_button_icon_unfocused"/>
++<menu_icon function="minimize" state="normal" draw_ops="minimize_button_icon_unfocused"/>
++
++</metacity_theme>
+diff --git a/metacity-themes/Slider/stripes.png b/metacity-themes/Slider/stripes.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..447fd7f51cc06e8ee52320d16313cb2294f34bfd
+GIT binary patch
+literal 254
+zcmeAS@N?(olHy`uVBq!ia0vp^1|ZDA1|-9oezpTC&H|6fVg?3oVGw3ym^DWND9B#o
+z>FdgVjZs=qk$Kln#YI3N(-PN+66gHf+|;}h290D*1tS9k69uot?9wEK;F8qLywoBt
+zF6W}u#FEq$h4Rdj426)4R0VfW-+&1>yYqnt#CW<mhGg7(dwHYa0R|3c!^8iqtwZ&U
+z3j}5FieKB3JLzQk@_&0}<}azXv^)9c>5p<J9)kl6%tR3Nh94M&|2bDDTs>F_w1>gd
+L)z4*}Q$iB}a^gw`
+
+literal 0
+HcmV?d00001
+
+-- 
+1.7.1.1
+

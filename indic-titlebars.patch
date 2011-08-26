@@ -1,0 +1,425 @@
+From 34ffc9495ae8d0c8ef33220001c7852c593f58ce Mon Sep 17 00:00:00 2001
+From: Takao Fujiwara <tfujiwar@redhat.com>
+Date: Tue, 30 Mar 2010 17:05:36 +0900
+Subject: [PATCH] Fix title vertical geometry in Clearlooks metacity theme.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=614343
+
+---
+ metacity-themes/Clearlooks/metacity-theme-1.xml    |   26 +++++++-------
+ .../ClearlooksClassic/metacity-theme-1.xml         |   34 ++++++++++----------
+ metacity-themes/Glossy/metacity-theme-1.xml        |   26 +++++++-------
+ metacity-themes/Inverted/metacity-theme-1.xml      |   26 +++++++-------
+ 4 files changed, 56 insertions(+), 56 deletions(-)
+
+diff --git a/metacity-themes/Clearlooks/metacity-theme-1.xml b/metacity-themes/Clearlooks/metacity-theme-1.xml
+index 6f23f00..8bf0026 100644
+--- a/metacity-themes/Clearlooks/metacity-theme-1.xml
++++ b/metacity-themes/Clearlooks/metacity-theme-1.xml
+@@ -200,7 +200,7 @@
+ <draw_ops name="bevel">
+ 	<include name="window_bg"/>
+ 	<!-- ** titlebar outline ** -->
+-	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="title_height + 6"/>
++	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="1" y1="height - 2" x2="width - 2" y2="height - 2"/>
+@@ -208,10 +208,10 @@
+ 	<line color="shade/gtk:bg[NORMAL]/1.2" x1="3" y1="1" x2="width - 4" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.2" x1="1" y1="3" x2="1" y2="height - 2"/>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.94" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.94" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
++	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.18" x1="1" y1="1" x2="width - 2" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.1" x1="1" y1="2" x2="1" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.1" x1="1" y1="2" x2="1" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -223,11 +223,11 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.02"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** border outline ** -->
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="title_height + 6" x2="0" y2="height"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="title_height + 6" x2="width - 1" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="0" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 1" y2="height"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.45" x1="1" y1="height - 1" x2="width - 2" y2="height - 1"/>
+ </draw_ops>
+ 
+@@ -235,7 +235,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.18" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.94" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/0.94" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -247,7 +247,7 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.02"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+@@ -278,7 +278,7 @@
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="width - 2" y1="2" x2="width - 2" y2="height - 2"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.05" x1="1" y1="1" x2="width - 2" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.03" x1="1" y1="2" x2="1" y2="height - 2"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.89" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.89" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -290,7 +290,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.95"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<rectangle color="shade/gtk:bg[NORMAL]/0.55" filled="false" x="0" y="0" width="width - 1" height="height - 1"/>
+ </draw_ops>
+ 
+@@ -298,7 +298,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.05" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.89" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.89" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -310,7 +310,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.95"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+diff --git a/metacity-themes/ClearlooksClassic/metacity-theme-1.xml b/metacity-themes/ClearlooksClassic/metacity-theme-1.xml
+index d583432..0046b50 100644
+--- a/metacity-themes/ClearlooksClassic/metacity-theme-1.xml
++++ b/metacity-themes/ClearlooksClassic/metacity-theme-1.xml
+@@ -174,7 +174,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.15" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.88" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.88" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="2" width="width" height="6">
+@@ -185,12 +185,12 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.96"/>
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+-	<gradient type="vertical" x="0" y="8 + title_height - 9" width="width" height="6">
++	<gradient type="vertical" x="0" y="8 + title_height - 9" width="width" height="top_height - title_height">
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 		<color value="shade/gtk:bg[NORMAL]/0.89"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+@@ -198,7 +198,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.2" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.75" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/0.75" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="2" width="width" height="6">
+@@ -209,12 +209,12 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.04"/>
+ 		<color value="shade/gtk:bg[SELECTED]/0.98"/>
+ 	</gradient>
+-	<gradient type="vertical" x="0" y="8 + title_height - 9" width="width" height="7">
++	<gradient type="vertical" x="0" y="8 + title_height - 9" width="width" height="top_height - title_height">
+ 		<color value="shade/gtk:bg[SELECTED]/0.98"/>
+ 		<color value="shade/gtk:bg[SELECTED]/0.9"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.65" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.65" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+@@ -224,7 +224,7 @@
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="width - 2" y1="2" x2="width - 2" y2="height - 2"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.15" x1="1" y1="1" x2="width - 2" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.07" x1="1" y1="2" x2="1" y2="height - 2"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.88" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.88" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="2" width="width - 4" height="6">
+@@ -235,12 +235,12 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.96"/>
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+-	<gradient type="vertical" x="2" y="8 + title_height - 9" width="width - 4" height="6">
++	<gradient type="vertical" x="2" y="8 + title_height - 9" width="width - 4" height="top_height - title_height">
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 		<color value="shade/gtk:bg[NORMAL]/0.89"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<rectangle color="shade/gtk:bg[NORMAL]/0.55" filled="false" x="0" y="0" width="width - 1" height="height - 1"/>
+ </draw_ops>
+ 
+@@ -261,7 +261,7 @@
+ <draw_ops name="bevel">
+ 	<include name="window_bg"/>
+ 	<!-- ** titlebar outline ** -->
+-	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="title_height + 6"/>
++	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="1" y1="height - 2" x2="width - 2" y2="height - 2"/>
+@@ -269,10 +269,10 @@
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="3" y1="1" x2="width - 4" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="1" y1="3" x2="1" y2="height - 2"/>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.95" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.95" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
++	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.2" x1="1" y1="1" x2="width - 2" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.12" x1="1" y1="2" x2="1" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.12" x1="1" y1="2" x2="1" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="2" width="width - 4" height="6">
+@@ -283,16 +283,16 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.04"/>
+ 		<color value="shade/gtk:bg[SELECTED]/0.98"/>
+ 	</gradient>
+-	<gradient type="vertical" x="2" y="8 + title_height - 9" width="width - 4" height="7">
++	<gradient type="vertical" x="2" y="8 + title_height - 9" width="width - 4" height="top_height - title_height">
+ 		<color value="shade/gtk:bg[SELECTED]/0.98"/>
+ 		<color value="shade/gtk:bg[SELECTED]/0.9"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.65" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.65" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** border outline ** -->
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="title_height + 6" x2="0" y2="height"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="title_height + 6" x2="width - 1" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="0" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 1" y2="height"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.45" x1="1" y1="height - 1" x2="width - 2" y2="height - 1"/>
+ </draw_ops>
+ 
+diff --git a/metacity-themes/Glossy/metacity-theme-1.xml b/metacity-themes/Glossy/metacity-theme-1.xml
+index dd54f76..2e5e3cd 100644
+--- a/metacity-themes/Glossy/metacity-theme-1.xml
++++ b/metacity-themes/Glossy/metacity-theme-1.xml
+@@ -192,7 +192,7 @@
+ <draw_ops name="bevel">
+ 	<include name="window_bg"/>
+ 	<!-- ** titlebar outline ** -->
+-	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="title_height + 6"/>
++	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="1" y1="height - 2" x2="width - 2" y2="height - 2"/>
+@@ -200,10 +200,10 @@
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="3" y1="1" x2="width - 4" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="1" y1="3" x2="1" y2="height - 2"/>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/1.08" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/1.08" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
++	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.25" x1="1" y1="1" x2="width - 2" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.22" x1="1" y1="2" x2="1" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.22" x1="1" y1="2" x2="1" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -215,11 +215,11 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.08"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** border outline ** -->
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="title_height + 6" x2="0" y2="height"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="title_height + 6" x2="width - 1" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="0" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 1" y2="height"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.45" x1="1" y1="height - 1" x2="width - 2" y2="height - 1"/>
+ </draw_ops>
+ 
+@@ -227,7 +227,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.25" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.08" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.08" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -239,7 +239,7 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.08"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+@@ -270,7 +270,7 @@
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="width - 2" y1="2" x2="width - 2" y2="height - 2"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.05" x1="1" y1="1" x2="width - 2" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.03" x1="1" y1="2" x2="1" y2="height - 2"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.9" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.9" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -282,7 +282,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<rectangle color="shade/gtk:bg[NORMAL]/0.55" filled="false" x="0" y="0" width="width - 1" height="height - 1"/>
+ </draw_ops>
+ 
+@@ -290,7 +290,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.05" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.9" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.9" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -302,7 +302,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.65" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+diff --git a/metacity-themes/Inverted/metacity-theme-1.xml b/metacity-themes/Inverted/metacity-theme-1.xml
+index 876a097..d7df4da 100644
+--- a/metacity-themes/Inverted/metacity-theme-1.xml
++++ b/metacity-themes/Inverted/metacity-theme-1.xml
+@@ -192,7 +192,7 @@
+ <draw_ops name="bevel">
+ 	<include name="window_bg"/>
+ 	<!-- ** titlebar outline ** -->
+-	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="title_height + 6"/>
++	<rectangle color="shade/gtk:bg[SELECTED]/0.55" filled="false" x="0" y="0" width="width - 1" height="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="1" y1="height - 2" x2="width - 2" y2="height - 2"/>
+@@ -200,10 +200,10 @@
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="3" y1="1" x2="width - 4" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.3" x1="1" y1="3" x2="1" y2="height - 2"/>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/1.05" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
+-	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/1.05" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
++	<line color="shade/gtk:bg[SELECTED]/0.95" x1="width - 2" y1="2" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.1" x1="1" y1="1" x2="width - 2" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.12" x1="1" y1="2" x2="1" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.12" x1="1" y1="2" x2="1" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -215,11 +215,11 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.0"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 
+ 	<!-- ** border outline ** -->
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="title_height + 6" x2="0" y2="height"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="title_height + 6" x2="width - 1" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="0" y2="height"/>
++	<line color="shade/gtk:bg[NORMAL]/0.45" x1="width - 1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 1" y2="height"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.45" x1="1" y1="height - 1" x2="width - 2" y2="height - 1"/>
+ </draw_ops>
+ 
+@@ -227,7 +227,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[SELECTED]/1.15" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[SELECTED]/1.05" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[SELECTED]/1.05" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -239,7 +239,7 @@
+ 		<color value="shade/gtk:bg[SELECTED]/1.0"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[SELECTED]/0.7" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[SELECTED]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+@@ -270,7 +270,7 @@
+ 	<line color="shade/gtk:bg[NORMAL]/0.88" x1="width - 2" y1="2" x2="width - 2" y2="height - 2"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.98" x1="1" y1="1" x2="width - 2" y2="1"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.0" x1="1" y1="2" x2="1" y2="height - 2"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.98" x1="2" y1="title_height + 5" x2="width - 3" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.98" x1="2" y1="((title_height + 5) `max` (top_height - 3))" x2="width - 3" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="2" y="top_height/2" width="width-4" height="top_height/2-1">
+@@ -282,7 +282,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.7" x1="1" y1="title_height + 6" x2="width - 2" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.7" x1="1" y1="((title_height + 6) `max` (top_height - 2))" x2="width - 2" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<rectangle color="shade/gtk:bg[NORMAL]/0.55" filled="false" x="0" y="0" width="width - 1" height="height - 1"/>
+ </draw_ops>
+ 
+@@ -290,7 +290,7 @@
+ 	<!-- ** 3d beveled frame ** -->
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="0" x2="width" y2="0"/>
+ 	<line color="shade/gtk:bg[NORMAL]/1.0" x1="0" y1="1" x2="width" y2="1"/>
+-	<line color="shade/gtk:bg[NORMAL]/0.98" x1="0" y1="title_height + 5" x2="width" y2="title_height + 5"/>
++	<line color="shade/gtk:bg[NORMAL]/0.98" x1="0" y1="((title_height + 5) `max` (top_height - 3))" x2="width" y2="((title_height + 5) `max` (top_height - 3))"/>
+ 
+ 	<!-- ** fancy gradient ** -->
+ 	<gradient type="vertical" x="0" y="top_height/2" width="width" height="top_height/2-1">
+@@ -302,7 +302,7 @@
+ 		<color value="shade/gtk:bg[NORMAL]/0.94"/>
+ 	</gradient>
+ 
+-	<line color="shade/gtk:bg[NORMAL]/0.7" x1="0" y1="title_height + 6" x2="width" y2="title_height + 6"/>
++	<line color="shade/gtk:bg[NORMAL]/0.7" x1="0" y1="((title_height + 6) `max` (top_height - 2))" x2="width" y2="((title_height + 6) `max` (top_height - 2))"/>
+ 	<line color="shade/gtk:bg[NORMAL]/0.55" x1="0" y1="height-1" x2="width" y2="height-1"/>
+ </draw_ops>
+ 
+-- 
+1.6.2.5
+
